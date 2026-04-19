@@ -1,17 +1,27 @@
 import Logo from './Logo';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 export default function Footer() {
+  const isMobile = useIsMobile();
+
   return (
-    <footer style={{ padding: '60px 40px 40px', borderTop: '1.5px solid var(--line)' }}>
+    <footer
+      style={{
+        padding: isMobile ? '40px 20px 32px' : '60px 40px 40px',
+        borderTop: '1.5px solid var(--line)',
+      }}
+    >
       <div
         style={{
           maxWidth: 1280,
           margin: '0 auto',
           display: 'flex',
-          justifyContent: 'space-between',
+          justifyContent: isMobile ? 'center' : 'space-between',
           alignItems: 'center',
           flexWrap: 'wrap',
-          gap: 24,
+          gap: isMobile ? 20 : 24,
+          flexDirection: isMobile ? 'column' : 'row',
+          textAlign: isMobile ? 'center' : 'left',
         }}
       >
         <Logo size={32} />

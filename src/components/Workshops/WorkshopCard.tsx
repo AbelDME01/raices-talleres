@@ -1,5 +1,6 @@
 import Blob from '../Blob';
 import type { Workshop } from '../../types';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 interface WorkshopCardProps {
   w: Workshop;
@@ -8,6 +9,7 @@ interface WorkshopCardProps {
 }
 
 export default function WorkshopCard({ w, i, onPick }: WorkshopCardProps) {
+  const isMobile = useIsMobile();
   const colorVar = `var(--${w.color})`;
   const pct = w.taken / w.spots;
   const full = w.taken >= w.spots;
@@ -24,7 +26,7 @@ export default function WorkshopCard({ w, i, onPick }: WorkshopCardProps) {
           padding: '28px 28px 24px',
           position: 'relative',
           overflow: 'hidden',
-          aspectRatio: '1.3/1',
+          aspectRatio: isMobile ? '1.6/1' : '1.3/1',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'space-between',

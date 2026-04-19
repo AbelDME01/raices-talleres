@@ -2,6 +2,7 @@ import { useState } from 'react';
 import Blob from './Blob';
 import { WORKSHOPS } from '../data/workshops';
 import type { Workshop } from '../types';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 interface CalendarProps {
   onPick: (w: Workshop) => void;
@@ -20,6 +21,7 @@ const months = [
 export default function Calendar({ onPick }: CalendarProps) {
   const [monthIdx, setMonthIdx] = useState(0);
   const [hovered, setHovered] = useState<HoveredInfo | null>(null);
+  const isMobile = useIsMobile();
 
   const m = months[monthIdx];
   const firstDay = new Date(m.year, m.idx, 1);
@@ -35,7 +37,12 @@ export default function Calendar({ onPick }: CalendarProps) {
   return (
     <section
       id="calendario"
-      style={{ padding: '120px 40px', background: 'var(--mint)', position: 'relative', overflow: 'hidden' }}
+      style={{
+        padding: isMobile ? '80px 20px' : '120px 40px',
+        background: 'var(--mint)',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
     >
       <Blob
         color="var(--cream)"
@@ -47,11 +54,12 @@ export default function Calendar({ onPick }: CalendarProps) {
           className="reveal"
           style={{
             display: 'flex',
-            alignItems: 'flex-end',
+            alignItems: isMobile ? 'flex-start' : 'flex-end',
             justifyContent: 'space-between',
             marginBottom: 48,
             flexWrap: 'wrap',
-            gap: 24,
+            gap: isMobile ? 16 : 24,
+            flexDirection: isMobile ? 'column' : 'row',
           }}
         >
           <div style={{ maxWidth: 620 }}>
@@ -134,7 +142,7 @@ export default function Calendar({ onPick }: CalendarProps) {
           style={{
             background: 'var(--bg)',
             borderRadius: 32,
-            padding: '36px',
+            padding: isMobile ? '20px 16px' : '36px',
             position: 'relative',
           }}
         >
@@ -192,7 +200,7 @@ export default function Calendar({ onPick }: CalendarProps) {
                     }
                     style={{
                       aspectRatio: '1/1',
-                      borderRadius: 20,
+                      borderRadius: isMobile ? 12 : 20,
                       position: 'relative',
                       background: has ? `var(--${ws[0].color})` : 'transparent',
                       border: has ? 'none' : '1px solid var(--line)',
@@ -202,17 +210,21 @@ export default function Calendar({ onPick }: CalendarProps) {
                       flexDirection: 'column',
                       alignItems: 'flex-start',
                       justifyContent: 'space-between',
-                      padding: '10px 12px',
+                      padding: isMobile ? '6px 4px' : '10px 12px',
                       textAlign: 'left',
                     }}
                   >
                     <span
                       className="serif"
-                      style={{ fontSize: 20, fontWeight: 500, opacity: has ? 1 : 0.4 }}
+                      style={{
+                        fontSize: isMobile ? 15 : 20,
+                        fontWeight: 500,
+                        opacity: has ? 1 : 0.4,
+                      }}
                     >
                       {day}
                     </span>
-                    {has && (
+                    {has && !isMobile && (
                       <div
                         style={{
                           fontSize: 10,
@@ -234,9 +246,10 @@ export default function Calendar({ onPick }: CalendarProps) {
             <div
               style={{
                 position: 'absolute',
-                bottom: -28,
+                ...(isMobile
+                  ? { bottom: 'auto', top: -20, transform: 'translate(-50%, -100%)' }
+                  : { bottom: -28, transform: 'translate(-50%, 100%)' }),
                 left: '50%',
-                transform: 'translate(-50%, 100%)',
                 background: 'var(--ink)',
                 color: 'var(--bg)',
                 padding: '18px 24px',
@@ -272,11 +285,12 @@ export default function Calendar({ onPick }: CalendarProps) {
           className="reveal"
           style={{
             display: 'flex',
-            gap: 24,
+            gap: isMobile ? 8 : 24,
             marginTop: 32,
             flexWrap: 'wrap',
             fontSize: 13,
             color: 'var(--ink-soft)',
+            flexDirection: isMobile ? 'column' : 'row',
           }}
         >
           {(

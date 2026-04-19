@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 const items = [
   {
@@ -29,9 +30,13 @@ const items = [
 
 export default function FAQ() {
   const [open, setOpen] = useState(0);
+  const isMobile = useIsMobile();
 
   return (
-    <section id="faq" style={{ padding: '120px 40px', position: 'relative' }}>
+    <section
+      id="faq"
+      style={{ padding: isMobile ? '80px 20px' : '120px 40px', position: 'relative' }}
+    >
       <div style={{ maxWidth: 960, margin: '0 auto' }}>
         <div className="reveal" style={{ marginBottom: 60, textAlign: 'center' }}>
           <div
@@ -69,7 +74,7 @@ export default function FAQ() {
                 onClick={() => setOpen(open === i ? -1 : i)}
                 style={{
                   width: '100%',
-                  padding: '28px 0',
+                  padding: isMobile ? '20px 0' : '28px 0',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'space-between',
@@ -79,7 +84,12 @@ export default function FAQ() {
               >
                 <span
                   className="serif"
-                  style={{ fontSize: 22, fontWeight: 500, letterSpacing: '-0.01em', lineHeight: 1.3 }}
+                  style={{
+                    fontSize: isMobile ? 19 : 22,
+                    fontWeight: 500,
+                    letterSpacing: '-0.01em',
+                    lineHeight: 1.3,
+                  }}
                 >
                   {it.q}
                 </span>

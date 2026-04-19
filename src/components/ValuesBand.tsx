@@ -1,4 +1,5 @@
 import Blob from './Blob';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 const items = [
   { n: '01', t: 'Sin recetas', d: 'No hay una sola forma de criar. Te ayudamos a encontrar la tuya.' },
@@ -8,10 +9,17 @@ const items = [
 ];
 
 export default function ValuesBand() {
+  const isMobile = useIsMobile();
+
   return (
     <section
       id="metodo"
-      style={{ padding: '120px 40px', background: 'var(--cream)', position: 'relative', overflow: 'hidden' }}
+      style={{
+        padding: isMobile ? '80px 20px' : '120px 40px',
+        background: 'var(--cream)',
+        position: 'relative',
+        overflow: 'hidden',
+      }}
     >
       <Blob
         color="var(--peach)"
@@ -48,7 +56,11 @@ export default function ValuesBand() {
         </div>
 
         <div
-          style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 32 }}
+          style={{
+            display: 'grid',
+            gridTemplateColumns: isMobile ? 'repeat(2, 1fr)' : 'repeat(4, 1fr)',
+            gap: isMobile ? 24 : 32,
+          }}
         >
           {items.map((it, i) => (
             <div

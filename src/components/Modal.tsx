@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import type { Workshop } from '../types';
 import Field from './Field';
 import InfoBit from './InfoBit';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 interface ModalProps {
   w: Workshop | null;
@@ -32,6 +33,7 @@ export default function Modal({ w, onClose }: ModalProps) {
     notes: '',
   });
   const [errors, setErrors] = useState<FormErrors>({});
+  const isMobile = useIsMobile();
 
   useEffect(() => {
     if (w) {
@@ -79,7 +81,7 @@ export default function Modal({ w, onClose }: ModalProps) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        padding: 20,
+        padding: isMobile ? '12px' : 20,
         animation: 'fadeIn .25s ease',
       }}
     >
@@ -87,7 +89,7 @@ export default function Modal({ w, onClose }: ModalProps) {
         onClick={(e) => e.stopPropagation()}
         style={{
           background: 'var(--bg)',
-          borderRadius: 32,
+          borderRadius: isMobile ? 24 : 32,
           maxWidth: 560,
           width: '100%',
           overflow: 'hidden',
@@ -101,7 +103,7 @@ export default function Modal({ w, onClose }: ModalProps) {
         <div
           style={{
             background: `var(--${w.color})`,
-            padding: '28px 32px',
+            padding: isMobile ? '20px 20px' : '28px 32px',
             position: 'relative',
           }}
         >
@@ -149,7 +151,7 @@ export default function Modal({ w, onClose }: ModalProps) {
         </div>
 
         {/* Modal body */}
-        <div style={{ padding: '32px', overflow: 'auto', flex: 1 }}>
+        <div style={{ padding: isMobile ? '24px 20px' : '32px', overflow: 'auto', flex: 1 }}>
           {step === 1 && (
             <div>
               <h4 className="serif" style={{ fontSize: 22, margin: '0 0 16px', fontWeight: 500 }}>
@@ -161,7 +163,7 @@ export default function Modal({ w, onClose }: ModalProps) {
               <div
                 style={{
                   display: 'grid',
-                  gridTemplateColumns: '1fr 1fr',
+                  gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
                   gap: 16,
                   marginBottom: 24,
                 }}

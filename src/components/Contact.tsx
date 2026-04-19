@@ -1,6 +1,7 @@
 import { useState, type FormEvent } from 'react';
 import Blob from './Blob';
 import Field from './Field';
+import { useIsMobile } from '../hooks/useIsMobile';
 
 interface ContactForm {
   name: string;
@@ -24,6 +25,7 @@ export default function Contact() {
   });
   const [errors, setErrors] = useState<ContactErrors>({});
   const [sent, setSent] = useState(false);
+  const isMobile = useIsMobile();
 
   const submit = (e: FormEvent) => {
     e.preventDefault();
@@ -40,7 +42,7 @@ export default function Contact() {
     <section
       id="contacto"
       style={{
-        padding: '120px 40px',
+        padding: isMobile ? '80px 20px' : '120px 40px',
         background: 'var(--peach)',
         position: 'relative',
         overflow: 'hidden',
@@ -61,7 +63,7 @@ export default function Contact() {
           margin: '0 auto',
           position: 'relative',
           display: 'grid',
-          gridTemplateColumns: '1fr 1.2fr',
+          gridTemplateColumns: isMobile ? '1fr' : '1fr 1.2fr',
           gap: 60,
           alignItems: 'center',
         }}

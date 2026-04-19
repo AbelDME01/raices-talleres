@@ -1,14 +1,17 @@
 import Blob from '../Blob';
 import HeroArtwork from './HeroArtwork';
 import FamilyFaces from './FamilyFaces';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 export default function HeroSplit() {
+  const isMobile = useIsMobile();
+
   return (
     <section
       style={{
         position: 'relative',
         minHeight: '100vh',
-        padding: '140px 40px 80px',
+        padding: isMobile ? '120px 20px 60px' : '140px 40px 80px',
         overflow: 'hidden',
       }}
     >
@@ -57,7 +60,7 @@ export default function HeroSplit() {
           maxWidth: 1280,
           margin: '0 auto',
           display: 'grid',
-          gridTemplateColumns: '1.1fr 1fr',
+          gridTemplateColumns: isMobile ? '1fr' : '1.1fr 1fr',
           gap: 60,
           alignItems: 'center',
           position: 'relative',
@@ -157,7 +160,14 @@ export default function HeroSplit() {
           </div>
         </div>
 
-        <div style={{ position: 'relative', aspectRatio: '1/1.05' }}>
+        {/* Second column: artwork — hidden on mobile */}
+        <div
+          style={{
+            position: 'relative',
+            aspectRatio: '1/1.05',
+            display: isMobile ? 'none' : 'block',
+          }}
+        >
           <HeroArtwork />
         </div>
       </div>

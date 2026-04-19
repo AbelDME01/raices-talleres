@@ -1,12 +1,15 @@
 import Blob from '../Blob';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 export default function HeroCentered() {
+  const isMobile = useIsMobile();
+
   return (
     <section
       style={{
         position: 'relative',
         minHeight: '100vh',
-        padding: '160px 40px 80px',
+        padding: isMobile ? '130px 20px 60px' : '160px 40px 80px',
         overflow: 'hidden',
         textAlign: 'center',
       }}
@@ -16,12 +19,12 @@ export default function HeroCentered() {
         color="var(--peach)"
         style={{
           position: 'absolute',
-          width: 420,
-          height: 420,
+          width: isMobile ? 280 : 420,
+          height: isMobile ? 280 : 420,
           top: -80,
           left: '50%',
           transform: 'translateX(-50%)',
-          opacity: 0.5,
+          opacity: isMobile ? 0.3 : 0.5,
         }}
       />
       <Blob
@@ -29,11 +32,11 @@ export default function HeroCentered() {
         color="var(--mint)"
         style={{
           position: 'absolute',
-          width: 200,
-          height: 200,
+          width: isMobile ? 120 : 200,
+          height: isMobile ? 120 : 200,
           bottom: 120,
-          left: 80,
-          opacity: 0.6,
+          left: isMobile ? -20 : 80,
+          opacity: isMobile ? 0.35 : 0.6,
         }}
       />
       <Blob
@@ -41,11 +44,11 @@ export default function HeroCentered() {
         color="var(--sky)"
         style={{
           position: 'absolute',
-          width: 260,
-          height: 260,
+          width: isMobile ? 140 : 260,
+          height: isMobile ? 140 : 260,
           top: 200,
-          right: 40,
-          opacity: 0.55,
+          right: isMobile ? -20 : 40,
+          opacity: isMobile ? 0.3 : 0.55,
         }}
       />
 
@@ -99,7 +102,15 @@ export default function HeroCentered() {
           juicios y con otras familias al lado.
         </p>
 
-        <div style={{ display: 'flex', gap: 16, justifyContent: 'center' }}>
+        <div
+          style={{
+            display: 'flex',
+            gap: isMobile ? 12 : 16,
+            justifyContent: 'center',
+            flexDirection: isMobile ? 'column' : 'row',
+            alignItems: 'center',
+          }}
+        >
           <a
             href="#talleres"
             style={{
@@ -108,6 +119,9 @@ export default function HeroCentered() {
               padding: '18px 32px',
               borderRadius: 999,
               fontWeight: 600,
+              width: isMobile ? '100%' : undefined,
+              textAlign: isMobile ? 'center' : undefined,
+              boxSizing: 'border-box',
             }}
           >
             Ver talleres →
@@ -119,6 +133,9 @@ export default function HeroCentered() {
               fontWeight: 600,
               border: '1.5px solid var(--line)',
               borderRadius: 999,
+              width: isMobile ? '100%' : undefined,
+              textAlign: isMobile ? 'center' : undefined,
+              boxSizing: 'border-box',
             }}
           >
             Cómo trabajamos

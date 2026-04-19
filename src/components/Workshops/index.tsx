@@ -3,6 +3,7 @@ import { WORKSHOPS, AGES, TAGS_FILTER } from '../../data/workshops';
 import type { Workshop } from '../../types';
 import FilterGroup from './FilterGroup';
 import WorkshopCard from './WorkshopCard';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 interface WorkshopsProps {
   onPick: (w: Workshop) => void;
@@ -12,6 +13,7 @@ export default function Workshops({ onPick }: WorkshopsProps) {
   const [age, setAge] = useState('Todas');
   const [tag, setTag] = useState('Todos');
   const [place, setPlace] = useState('Todos');
+  const isMobile = useIsMobile();
 
   const filtered = WORKSHOPS.filter((w) => {
     if (age !== 'Todas') {
@@ -28,17 +30,18 @@ export default function Workshops({ onPick }: WorkshopsProps) {
   });
 
   return (
-    <section id="talleres" style={{ padding: '120px 40px', position: 'relative' }}>
+    <section id="talleres" style={{ padding: isMobile ? '80px 20px' : '120px 40px', position: 'relative' }}>
       <div style={{ maxWidth: 1280, margin: '0 auto' }}>
         <div
           className="reveal"
           style={{
             display: 'flex',
-            alignItems: 'flex-end',
+            alignItems: isMobile ? 'flex-start' : 'flex-end',
             justifyContent: 'space-between',
             marginBottom: 48,
             flexWrap: 'wrap',
             gap: 24,
+            flexDirection: isMobile ? 'column' : 'row',
           }}
         >
           <div style={{ maxWidth: 640 }}>
@@ -78,13 +81,15 @@ export default function Workshops({ onPick }: WorkshopsProps) {
           className="reveal"
           style={{
             display: 'flex',
-            flexWrap: 'wrap',
+            flexWrap: isMobile ? 'nowrap' : 'wrap',
             gap: 32,
             marginBottom: 48,
             padding: '24px 28px',
             background: 'var(--bg)',
             border: '1.5px solid var(--line)',
             borderRadius: 28,
+            overflowX: isMobile ? 'auto' : 'visible',
+            WebkitOverflowScrolling: 'touch' as React.CSSProperties['WebkitOverflowScrolling'],
           }}
         >
           <FilterGroup label="Edad" options={AGES} value={age} onChange={setAge} />
@@ -98,7 +103,13 @@ export default function Workshops({ onPick }: WorkshopsProps) {
         </div>
 
         {/* Grid */}
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 28 }}>
+        <div
+          style={{
+            display: 'grid',
+            gridTemplateColumns: isMobile ? '1fr' : 'repeat(3, 1fr)',
+            gap: 28,
+          }}
+        >
           {filtered.map((w, i) => (
             <WorkshopCard key={w.id} w={w} i={i} onPick={onPick} />
           ))}

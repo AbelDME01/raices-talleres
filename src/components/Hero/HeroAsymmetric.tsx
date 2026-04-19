@@ -1,25 +1,28 @@
 import HeroArtwork from './HeroArtwork';
+import { useIsMobile } from '../../hooks/useIsMobile';
 
 export default function HeroAsymmetric() {
+  const isMobile = useIsMobile();
+
   return (
     <section
       style={{
         position: 'relative',
         minHeight: '100vh',
-        padding: '140px 0 40px',
+        padding: isMobile ? '120px 20px 40px' : '140px 0 40px',
         overflow: 'hidden',
       }}
     >
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          minHeight: 'calc(100vh - 180px)',
+          gridTemplateColumns: isMobile ? '1fr' : '1fr 1fr',
+          minHeight: isMobile ? 'auto' : 'calc(100vh - 180px)',
         }}
       >
         <div
           style={{
-            padding: '40px 60px 40px 10%',
+            padding: isMobile ? '0' : '40px 60px 40px 10%',
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
@@ -89,12 +92,14 @@ export default function HeroAsymmetric() {
           </a>
         </div>
 
+        {/* Right image column — hidden on mobile */}
         <div
           style={{
             position: 'relative',
             background: 'var(--peach)',
             borderTopLeftRadius: '180px 140px',
             borderBottomLeftRadius: '120px 180px',
+            display: isMobile ? 'none' : 'block',
           }}
         >
           <div
