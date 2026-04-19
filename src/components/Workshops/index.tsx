@@ -4,6 +4,7 @@ import type { Workshop } from '../../types';
 import FilterGroup from './FilterGroup';
 import WorkshopCard from './WorkshopCard';
 import { useIsMobile } from '../../hooks/useIsMobile';
+import MobileFilters from './MobileFilters';
 
 interface WorkshopsProps {
   onPick: (w: Workshop) => void;
@@ -71,36 +72,47 @@ export default function Workshops({ onPick }: WorkshopsProps) {
               <em style={{ fontStyle: 'italic', fontWeight: 300 }}>vives ahora.</em>
             </h2>
           </div>
-          <div style={{ fontSize: 15, color: 'var(--ink-soft)' }}>
-            {filtered.length} {filtered.length === 1 ? 'taller' : 'talleres'} disponibles
-          </div>
+          {!isMobile && (
+            <div style={{ fontSize: 15, color: 'var(--ink-soft)' }}>
+              {filtered.length} {filtered.length === 1 ? 'taller' : 'talleres'} disponibles
+            </div>
+          )}
         </div>
 
         {/* Filters */}
-        <div
-          className="reveal"
-          style={{
-            display: 'flex',
-            flexWrap: isMobile ? 'nowrap' : 'wrap',
-            gap: 32,
-            marginBottom: 48,
-            padding: '24px 28px',
-            background: 'var(--bg)',
-            border: '1.5px solid var(--line)',
-            borderRadius: 28,
-            overflowX: isMobile ? 'auto' : 'visible',
-            WebkitOverflowScrolling: 'touch' as React.CSSProperties['WebkitOverflowScrolling'],
-          }}
-        >
-          <FilterGroup label="Edad" options={AGES} value={age} onChange={setAge} />
-          <FilterGroup label="Tema" options={TAGS_FILTER} value={tag} onChange={setTag} />
-          <FilterGroup
-            label="Formato"
-            options={['Todos', 'Presencial', 'Online']}
-            value={place}
-            onChange={setPlace}
-          />
-        </div>
+        {isMobile ? (
+          <div className="reveal" style={{ marginBottom: 32 }}>
+            <MobileFilters
+              age={age} setAge={setAge}
+              tag={tag} setTag={setTag}
+              place={place} setPlace={setPlace}
+              count={filtered.length}
+            />
+          </div>
+        ) : (
+          <div
+            className="reveal"
+            style={{
+              display: 'flex',
+              flexWrap: 'wrap',
+              gap: 32,
+              marginBottom: 48,
+              padding: '24px 28px',
+              background: 'var(--bg)',
+              border: '1.5px solid var(--line)',
+              borderRadius: 28,
+            }}
+          >
+            <FilterGroup label="Edad" options={AGES} value={age} onChange={setAge} />
+            <FilterGroup label="Tema" options={TAGS_FILTER} value={tag} onChange={setTag} />
+            <FilterGroup
+              label="Formato"
+              options={['Todos', 'Presencial', 'Online']}
+              value={place}
+              onChange={setPlace}
+            />
+          </div>
+        )}
 
         {/* Grid */}
         <div
